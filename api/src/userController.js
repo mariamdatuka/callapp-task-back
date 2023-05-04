@@ -23,3 +23,14 @@ export function addItem(req,res){
     });
    }
 
+export function deleteItem(req,res){
+  const data = JSON.parse(fs.readFileSync("data.json"));
+  const id = req.params.id;
+  const index = data.findIndex((item) => item.id == req.params.id);
+  if (index === -1) {
+    return res.status(404).send("user not found");
+  }
+  const item = data.splice(index, 1)[0];
+  fs.writeFileSync("data.json", JSON.stringify(data));
+  res.send(item);
+}
