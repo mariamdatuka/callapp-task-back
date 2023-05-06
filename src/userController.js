@@ -13,12 +13,19 @@ export function getFullData(req, res) {
   }
 
 export function addItem(req,res){
-    const newData = req.body;
-    fs.writeFile('data.json', JSON.stringify(newData), err => {
+  fs.readFile("data.json", (err, data) => {
       if (err) {
-        res.status(500).send(`Error: ${err}`);
+        res.status(500).send("Error reading file");
       } else {
-        res.status(200).send('Data updated successfully');
+        const jsonData = JSON.parse(data);
+        jsonData.push(req.body);
+        fs.writeFile("data.json", JSON.stringify(jsonData), (err) => {
+          if (err) {
+            res.status(500).send("Error writing file");
+          } else {
+            res.status(200).send("Data added to file");
+          }
+        });
       }
     });
    }
