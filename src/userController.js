@@ -47,7 +47,7 @@ export function updateTable(req, res) {
     const id = req.params.id;
   
     const updateData = req.body;
-    const index = data.findIndex((item) => item.id == id);
+    const index = data.findIndex((item) => item.id === id);
     if (index === -1) {
       return res.status(404).send("Data not found");
     }
